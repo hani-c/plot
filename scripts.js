@@ -22,52 +22,51 @@ var data = [
     ['fr-gua', 17]
 ];  
 
-
 document.addEventListener('DOMContentLoaded', function () {
 // Create the chart
-Highcharts.mapChart('container', {
-    chart: {
-        map: 'countries/fr/fr-all'
-    },
+        const chart = Highcharts.mapChart('container', {
+            chart: {
+                map: 'countries/fr/fr-all'
+            },
 
-    title: {
-        text: 'Highmaps basic demo'
-    },
+            title: {
+                text: 'Highmaps basic demo'
+            },
 
-    subtitle: {
-        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
-    },
+            subtitle: {
+                text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
+            },
 
-    mapNavigation: {
-        enabled: true,
-        buttonOptions: {
-            verticalAlign: 'bottom'
-        }
-    },
+            mapNavigation: {
+                enabled: true,
+                buttonOptions: {
+                    verticalAlign: 'bottom'
+                }
+            },
 
-    colorAxis: {
-        min: 0
-    },
+            colorAxis: {
+                min: 0
+            },
 
-    series: [{
-        data: data,
-        name: 'Random data',
-        states: {
-            hover: {
-                color: '#BADA55'
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            format: '{point.name}'
-        }
-    }, {
-        name: 'Separators',
-        type: 'mapline',
-        data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
-        color: 'silver',
-        nullColor: 'silver',
-        showInLegend: false,
-        enableMouseTracking: false
-    }]
-});
+            series: [{
+                data: data,
+                name: 'Random data',
+                states: {
+                    hover: {
+                        color: '#BADA55'
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }, {
+                name: 'Separators',
+                type: 'mapline',
+                data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
+                color: 'silver',
+                nullColor: 'silver',
+                showInLegend: false,
+                enableMouseTracking: false
+            }]
+        });
