@@ -2,30 +2,24 @@
 // Data is joined to map using value of 'hc-key' property by default.
 // See API docs for 'joinBy' for more info on linking data and map.
 var data = [
-    ['fr-cor', 0],
-    ['fr-bre', 1],
-    ['fr-pdl', 2],
-    ['fr-pac', 3],
-    ['fr-occ', 4],
-    ['fr-naq', 5],
-    ['fr-bfc', 6],
-    ['fr-cvl', 7],
-    ['fr-idf', 8],
-    ['fr-hdf', 9],
-    ['fr-ara', 10],
-    ['fr-ges', 11],
-    ['fr-nor', 12],
-    ['fr-lre', 13],
-    ['fr-may', 14],
-    ['fr-gf', 15],
-    ['fr-mq', 16],
-    ['fr-gua', 17]
+    ['fr-bre', 0],
+    ['fr-pdl', 1],
+    ['fr-pac', 2],
+    ['fr-occ', 3],
+    ['fr-naq', 4],
+    ['fr-bfc', 5],
+    ['fr-cvl', 6],
+    ['fr-idf', 7],
+    ['fr-hdf', 8],
+    ['fr-ara', 9],
+    ['fr-ges', 10],
+    ['fr-nor', 11]
 ];
 
 // Create the chart
 Highcharts.mapChart('container', {
     chart: {
-        map: 'countries/fr/fr-all'
+        map: 'countries/fr/custom/fr-all-mainland'
     },
 
     title: {
@@ -33,7 +27,7 @@ Highcharts.mapChart('container', {
     },
 
     subtitle: {
-        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
+        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/custom/fr-all-mainland.js">France, mainland</a>'
     },
 
     mapNavigation: {
@@ -59,13 +53,5 @@ Highcharts.mapChart('container', {
             enabled: true,
             format: '{point.name}'
         }
-    }, {
-        name: 'Separators',
-        type: 'mapline',
-        data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
-        color: 'silver',
-        nullColor: 'silver',
-        showInLegend: false,
-        enableMouseTracking: false
     }]
 });
