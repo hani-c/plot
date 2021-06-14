@@ -1,72 +1,116 @@
-// Prepare demo data
-// Data is joined to map using value of 'hc-key' property by default.
-// See API docs for 'joinBy' for more info on linking data and map.
-var data = [
-    ['fr-cor', 0],
-    ['fr-bre', 1],
-    ['fr-pdl', 2],
-    ['fr-pac', 3],
-    ['fr-occ', 4],
-    ['fr-naq', 5],
-    ['fr-bfc', 6],
-    ['fr-cvl', 7],
-    ['fr-idf', 8],
-    ['fr-hdf', 9],
-    ['fr-ara', 10],
-    ['fr-ges', 11],
-    ['fr-nor', 12],
-    ['fr-lre', 13],
-    ['fr-may', 14],
-    ['fr-gf', 15],
-    ['fr-mq', 16],
-    ['fr-gua', 17]
-];  
+Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/australia.geo.json', function (geojson) {
 
-document.addEventListener('DOMContentLoaded', function () {
-// Create the chart
-        const chart = Highcharts.mapChart('container', {
-            chart: {
-                map: 'countries/fr/fr-all'
+    // Prepare the geojson
+    var states = Highcharts.geojson(geojson, 'map'),
+        rivers = Highcharts.geojson(geojson, 'mapline'),
+        cities = Highcharts.geojson(geojson, 'mappoint'),
+        specialCityLabels = {
+            Melbourne: {
+                align: 'right'
             },
-
-            title: {
-                text: 'Highmaps basic demo'
+            Canberra: {
+                align: 'right',
+                y: -5
             },
-
-            subtitle: {
-                text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/fr/fr-all.js">France</a>'
+            Wollongong: {
+                y: 5
             },
+            Brisbane: {
+                y: -5
+            }
+        };
 
-            mapNavigation: {
+    // Skip or move some labels to avoid collision
+    states.forEach(function (state) {
+        // Disable data labels
+        if (state.properties.code_hasc === 'AU.CT' || state.properties.code_hasc === 'AU.JB') {
+            state.dataLabels = {
+                enabled: false
+            };
+        }
+        if (state.properties.code_hasc === 'AU.TS') {
+            state.dataLabels = {
+                style: {
+                    color: '#333333'
+                }
+            };
+        }
+        // Move center for data label
+        if (state.properties.code_hasc === 'AU.SA') {
+            state.middleY = 0.3;
+        }
+        if (state.properties.code_hasc === 'AU.QL') {
+            state.middleY = 0.7;
+        }
+    });
+
+    cities.forEach(function (city) {
+        if (specialCityLabels[city.name]) {
+            city.dataLabels = specialCityLabels[city.name];
+        }
+    });
+
+    // Initiate the chart
+    Highcharts.mapChart('container', {
+        title: {
+            text: 'Highmaps from geojson with multiple geometry types'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        series: [{
+            name: 'States and territories',
+            data: states,
+            color: Highcharts.getOptions().colors[2],
+            states: {
+                hover: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            dataLabels: {
                 enabled: true,
-                buttonOptions: {
-                    verticalAlign: 'bottom'
+                format: '{point.name}',
+                style: {
+                    width: '80px' // force line-wrap
                 }
             },
-
-            colorAxis: {
-                min: 0
-            },
-
-            series: [{
-                data: data,
-                name: 'Random data',
-                states: {
-                    hover: {
-                        color: '#BADA55'
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}'
+            tooltip: {
+                pointFormat: '{point.name}'
+            }
+        }, {
+            name: 'Rivers',
+            type: 'mapline',
+            data: rivers,
+            states: {
+                hover: {
+                    lineWidth: 3
                 }
-            }, {
-                name: 'Separators',
-                type: 'mapline',
-                data: Highcharts.geojson(Highcharts.maps['countries/fr/fr-all'], 'mapline'),
-                color: 'silver',
-                nullColor: 'silver',
-                showInLegend: false,
-                enableMouseTracking: false
-            }]
-        });
+            },
+            color: Highcharts.getOptions().colors[0],
+            tooltip: {
+                pointFormat: '{point.properties.NAME}'
+            }
+        }, {
+            name: 'Cities',
+            type: 'mappoint',
+            data: cities,
+            color: 'black',
+            marker: {
+                radius: 2
+            },
+            dataLabels: {
+                align: 'left',
+                verticalAlign: 'middle'
+            },
+            animation: false,
+            tooltip: {
+                pointFormat: '{point.name}'
+            }
+        }]
+    });
+});
