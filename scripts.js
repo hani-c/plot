@@ -34,10 +34,7 @@ var chart, dataSequence = [
     
 
 // Create the chart
-Highcharts.mapChart('container', {
-    chart: {
-        map: 'countries/fr/custom/fr-all-mainland'
-    },
+ $('#container').highcharts('Map', {
 
     title: {
         text: 'Highmaps with time control'
@@ -75,6 +72,8 @@ Highcharts.mapChart('container', {
         }
     }]
 });
+
+   chart = $('#container').highcharts();
 
  /**
      * Update the chart. This happens either on updating (moving) the range input,
