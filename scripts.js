@@ -46,7 +46,7 @@ Highcharts.mapChart('container', {
         name: 'Random data',
         states: {
             hover: {
-                color: '#BADA55'
+                color: '#dad655'
             }
         },
         dataLabels: {
